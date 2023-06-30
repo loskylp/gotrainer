@@ -9,11 +9,16 @@ type ParamName = 'reps' | 'weight' | 'distance' | 'height' | 'resistencia' | 'ti
 
 class ExerciseFolio {
     
-    execiseCollection : Exercise[]
+    addNewExercise(e: Exercise) {
+        this.execiseCollection.push(e)
+    }
 
     getExercises() : Exercise[] {
         return this.execiseCollection
     } 
+
+    execiseCollection : Exercise[] = []
+
 }
 
 class Exercise {

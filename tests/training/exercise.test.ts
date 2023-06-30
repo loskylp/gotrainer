@@ -13,6 +13,14 @@ describe('testing exercises', () => {
         folio.execiseCollection = [ new Exercise('Barbel Bench Press', 'chest', ['weight', 'reps']) ]
         expect(folio.getExercises()).toHaveLength(1)
     })
+
+    test('testing adding an exerciseto the list of exercises', () => {
+        let folio: ExerciseFolio = new ExerciseFolio()
+        expect(folio.getExercises()).toHaveLength(0)
+        let e = new Exercise('Barbel Bench Press', 'chest', ['weight', 'reps'])
+        folio.addNewExercise(e)
+        expect(folio.getExercises()).toHaveLength(1)
+    })
 })
 
 // Push/ pull/ legs (PPL) is an approach which splits your body into three groups: 
