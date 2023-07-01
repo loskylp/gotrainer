@@ -48,6 +48,7 @@ class ExerciseSet {
         return this.value
     }
     value : SetParam[] = []
+    done : boolean = false
 } 
 
 type SetParam = {

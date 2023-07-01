@@ -73,4 +73,26 @@ describe('testing training session', () => {
             }
         })
     })
+
+    test('mark a Set as Done', () => {
+        let t = new Training(new Date())
+        let e = folio.getExercises()[0]
+        t.addExercise(e)
+
+        // Crete a set  for a given Exercise
+        let newset = t.getExercises()[0].newSet()
+
+        expect(newset.done).toBeFalsy()
+        newset.getParameters().forEach(p => {    
+            if (p.name == 'weight') {
+                p.value = 60
+                p.unit = 'kgs'
+            }
+            if (p.name == 'reps') {
+                p.value = 10
+            }
+        })
+        newset.done = true
+        expect(t.getExercises()[0].sets[0].done).toBeTruthy()
+    })
 })
