@@ -1,8 +1,8 @@
-import { ExerciseFolio, Exercise, Muscle } from '../../src/training/exercise';
+import { ExerciseFolio, Exercise, Muscle, ParamTypes } from '../../src/training/exercise';
 
 describe('testing exercises', () => {
     test('testing exercise creation', () => {
-        let e = new Exercise('Barbel Bench Press', 'chest', ['weight', 'reps'])
+        let e = new Exercise('Barbel Bench Press', 'chest', [ParamTypes['weight'], ParamTypes['reps']])
         expect(e.name).toBe('Barbel Bench Press')
         expect(e.muscleGroup).toBe('chest')
         expect(e.params).toHaveLength(2)
@@ -10,14 +10,14 @@ describe('testing exercises', () => {
 
     test('testing obtaining list of exercises', () => {
         let folio: ExerciseFolio = new ExerciseFolio()
-        folio.execiseCollection = [ new Exercise('Barbel Bench Press', 'chest', ['weight', 'reps']) ]
+        folio.execiseCollection = [ new Exercise('Barbel Bench Press', 'chest', [ParamTypes['weight'], ParamTypes['reps']]) ]
         expect(folio.getExercises()).toHaveLength(1)
     })
 
     test('testing adding an exerciseto the list of exercises', () => {
         let folio: ExerciseFolio = new ExerciseFolio()
         expect(folio.getExercises()).toHaveLength(0)
-        let e = new Exercise('Barbel Bench Press', 'chest', ['weight', 'reps'])
+        let e = new Exercise('Barbel Bench Press', 'chest', [ParamTypes['weight'], ParamTypes['reps']])
         folio.addNewExercise(e)
         expect(folio.getExercises()).toHaveLength(1)
     })

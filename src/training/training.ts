@@ -1,4 +1,4 @@
-import { Exercise, ParamName } from "./exercise"
+import { Exercise, ParamName, ParamUnit, ParamType } from "./exercise"
 
 class Training {
     getExercises(): TrainingExercise[] {
@@ -18,18 +18,42 @@ class Training {
 }
 
 class TrainingExercise {
-
+    
     constructor(e: Exercise) {
         this.exercise = e
     }
+    
+    newSet() : ExerciseSet {
+        let set = new ExerciseSet(this.exercise.params)
+        this.sets.push(set)
+        return set
+    }
 
     exercise: Exercise
-    sets: [] = []
+    sets: ExerciseSet[] = []
 }
 
-type ExerciseSet = [{
-    param: ParamName,
-    value: any
-}]
+class ExerciseSet {
+    
+    constructor(params : ParamType[]){
+        params.forEach(p => {
+            this.value.push({
+                name : p.name,
+                value : 0,
+                unit : p.units[0]
+            })
+        });
+    }
+    getParameters(): SetParam[] {
+        return this.value
+    }
+    value : SetParam[] = []
+} 
+
+type SetParam = {
+    name: ParamName,
+    value: any,
+    unit: ParamUnit
+}
 
 export {Training, TrainingExercise, ExerciseSet}
