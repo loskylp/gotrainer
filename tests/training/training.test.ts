@@ -42,4 +42,35 @@ describe('testing training session', () => {
             expect(p.unit).toBeDefined()
         });
     })
+
+    test('fillup Parameters in Tranining Exercise', () => {
+        let t = new Training(new Date())
+        let e = folio.getExercises()[0]
+        t.addExercise(e)
+
+        // Crete a set for a given Exercise
+        let newset = t.getExercises()[0].newSet()
+
+        newset.getParameters().forEach(p => {    
+            if (p.name == 'weight') {
+                p.value = 60
+                p.unit = 'kgs'
+            }
+            if (p.name == 'reps') {
+                p.value = 10
+            }
+        })
+
+        let set = t.getExercises()[0].sets[0]
+        set.getParameters().forEach(p => {    
+            if (p.name == 'weight') {
+                expect(p.value).toBe(60)
+                expect(p.unit).toBe('kgs')
+            }
+            if (p.name == 'reps') {
+                expect(p.value).toBe(10)
+                expect(p.unit).toBe('number')
+            }
+        })
+    })
 })
