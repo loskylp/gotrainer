@@ -1,11 +1,17 @@
 import { Exercise, ParamName, ParamUnit, ParamType } from "./exercise"
 
 class Training {
+   
     getExercises(): TrainingExercise[] {
         return this.execises
     }
     addExercise(e: Exercise) {
         this.execises.push(new TrainingExercise(e))
+    }
+    getNextSet(): ExerciseSet | undefined {
+        let sets = this.execises.flatMap(e => e.sets)
+        let f = sets.find(s => ! s.done)
+        return f
     }
 
     constructor(start: Date) {
