@@ -20,7 +20,18 @@ class Training {
     start: Date
     end: Date 
     execises: TrainingExercise[] = []
-    done: boolean
+    isDone(): boolean {
+        // If a training session has no exercises 'yet', it can't be done
+        if (this.execises.length == 0)
+        return false
+
+        // If a trainin session's exercises don't have sets, it cant be done
+        if (this.execises.flatMap(e => e.sets).length == 0)
+        return false
+
+        // when this.getNextSet() is undefined, then all sets are done
+        return this.getNextSet() == undefined
+    }
 }
 
 class TrainingExercise {
@@ -40,6 +51,9 @@ class TrainingExercise {
 }
 
 class ExerciseSet {
+    IsDone() {
+        throw new Error('Method not implemented.')
+    }
     
     constructor(params : ParamType[]){
         params.forEach(p => {
@@ -53,8 +67,12 @@ class ExerciseSet {
     getParameters(): SetParam[] {
         return this.value
     }
+
+    setDone(){
+        this.done = true
+    }
     value : SetParam[] = []
-    done : boolean = false
+    done : boolean = false // should be observable
 } 
 
 type SetParam = {

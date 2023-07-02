@@ -4,8 +4,8 @@ import { Training } from '../../src/training/training';
 describe('testing training session', () => {
     test('testing training session creation', () => {
         let t = new Training(new Date())
-        expect(t.start).toBeDefined()
-        expect(t.done).toBeFalsy()
+        expect(t.start).toBeDefined()        
+        expect(t.isDone()).toBeFalsy()
         expect(t.getExercises()).toHaveLength(0)
     })
 
@@ -104,13 +104,18 @@ describe('testing training session', () => {
         t.getExercises()[0].newSet().getParameters().forEach ((p) => setParameters(p))
 
         // getNext set work as a cursor and is idempotent until the set is done
+        expect(t.isDone()).toBeFalsy()
+        expect(t.getNextSet()).toBeDefined()
         expect(t.getNextSet()).toBe(t.getExercises()[0].sets[0])
         expect(t.getNextSet()).toBe(t.getExercises()[0].sets[0])
         t.getExercises()[0].sets[0].done = true
+        expect(t.isDone()).toBeFalsy()
+        expect(t.getNextSet()).toBeDefined()
         expect(t.getNextSet()).toBe(t.getExercises()[0].sets[1])
         expect(t.getNextSet()).toBe(t.getExercises()[0].sets[1])
         t.getExercises()[0].sets[1].done = true
         expect(t.getNextSet()).toBeUndefined()
+        expect(t.isDone()).toBeTruthy()
     })
 })
 
