@@ -1,0 +1,98 @@
+# Simple workflow for dealing with push and pull request on feature branches
+name: Test and Merge
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches-ignore:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+
+  # we run this first step only if a push event triggered this workflow
+  create-pull-request:
+    if: github.ref_name
+    runs-on: ubuntu-latest
+    outputs:
+      head_ref: ${{ github.ref_name }}
+      pr_number: ${{ steps.create_pr.outputs.pr_number }}
+      pr_url: ${{ steps.create_pr.outputs.url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create Pull Request
+        id: create_pr
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: Pull Request for ${{ github.ref_name }}
+          target_branch: main
+          label: automatic,feature
+          get_diff: true
+          template: .github/workflows/templates/pull_request_template.md
+      - name: Retrieve the ref to test
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          PR_NUMBER : ${{ steps.create_pr.outputs.pr_number }}
+          PR_URL : ${{ steps.create_pr.outputs.url }}
+        run: |
+          echo "This is the value of github.head_ref $HEAD_REF\n"
+          echo "This is the value from PR Creation $PR_NUMBER in $PR_URL\n"
+      - name: Enable automerge
+        if: steps.create_pr.outputs.pr_number != ''
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          merge-method: merge
+      
+
+  run-jest-tests:
+    name: Jest Tests
+    needs: create-pull-request
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Retrieve the ref to test
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          PR_NUMBER : ${{ needs.create-pull-request.outputs.pr_number || github.event.pull_request.number}}
+          PR_URL : ${{ needs.create-pull-request.outputs.pr_url }}
+        run: |
+          echo "This is the value of github.head_ref $HEAD_REF\n"
+          echo "This is the value from PR Creation $PR_NUMBER in $PR_URL\n"
+
+      - name: Checkout under $GITHUB_WORKSPACE
+        uses: actions/checkout@v3
+        with:
+          ref: refs/pull/${{ needs.create-pull-request.outputs.pr_number || github.event.pull_request.number }}/merge
+          # refs/pull/${{ needs.create-pull-request.outputs.pr_number }}/merge     
+      
+      - name: Set up NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install all dependencies
+        run: npm install
+
+      - name: Run Jest Tests
+        run: npm run test
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            test-results/**/*.xml
+  
+  
+
+  
+
+    
