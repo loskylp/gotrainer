@@ -1,4 +1,5 @@
-import { ExerciseFolio, Exercise, Muscle, ParamTypes } from '../../src/training/exercise';
+import { ExerciseFolio, Exercise, Muscle, ParamTypes } from '../../src/model/training/exercise';
+import {expect, jest, test} from '@jest/globals';
 
 describe('testing exercises', () => {
     test('testing exercise creation', () => {

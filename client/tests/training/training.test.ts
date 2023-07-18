@@ -1,5 +1,6 @@
-import { Exercise, ExerciseFolio, ParamTypes } from '../../src/training/exercise';
-import { Training } from '../../src/training/training';
+import { Exercise, ExerciseFolio, ParamTypes } from '../../src/model/training/exercise';
+import { Training, SetParam } from '../../src/model/training/training';
+import {expect, jest, test} from '@jest/globals';
 
 describe('testing training session', () => {
     test('testing training session creation', () => {
@@ -119,7 +120,7 @@ describe('testing training session', () => {
     })
 })
 
-function setParameters(p) {
+function setParameters(p : SetParam) {
     if (p.name == 'weight') {
         p.value = 60
         p.unit = 'kgs'

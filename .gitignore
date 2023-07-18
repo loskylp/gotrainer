@@ -11,6 +11,10 @@
 npm-debug.log
 yarn-error.log
 
+# Testing
+test-results
+coverage
+
 # IDEs and editors
 .idea/
 .project

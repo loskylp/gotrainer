@@ -18,7 +18,7 @@ class Training {
         this.start = start
     }
     start: Date
-    end: Date 
+    end: Date | undefined
     execises: TrainingExercise[] = []
     isDone(): boolean {
         // If a training session has no exercises 'yet', it can't be done
@@ -81,4 +81,4 @@ type SetParam = {
     unit: ParamUnit
 }
 
-export {Training, TrainingExercise, ExerciseSet}
+export {Training, TrainingExercise, ExerciseSet, SetParam}
