@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Training App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Dynamic Color Palette */
+        :root {
+            --primary-color: #FF5722; /* Example primary color */
+            --secondary-color: #03A9F4; /* Example secondary color */
+        }
+
+        /* Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .exercise-card {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .exercise-icon {
+            margin-right: 5px;
+        }
+
+        .set-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .set-label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .set-input {
+            width: 60px;
+            height: 20px;
+        }
+
+        .checkmark {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .checkmark i {
+            color: #ccc;
+        }
+
+        .checkmark.checked i {
+            color: var(--secondary-color);
+        }
+
+        .exercise-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .exercise-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        .full-progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .full-progress {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .full-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        /* .exercise-card.expanded:not(:first-child) {
+            display: none;
+        }
+
+        .exercise-card.minimized:not(:first-child) {
+            display: none;
+        } */
+
+        .add-set-btn {
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .remove-set-btn {
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .set-control {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .exercise-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .add-exercise-btn {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fitness Training App</h1>
+
+        <div class="exercise-card expanded">
+            <div class="exercise-controls">
+                <div class="exercise-name">
+                    <i class="bi bi-dumbbell exercise-icon"></i>
+                    Bench Press
+                </div>
+                <button class="add-set-btn btn btn-primary btn-sm">Add Set</button>
+                <button class="remove-set-btn btn btn-danger btn-sm">Remove Set</button>
+            </div>
+            <div class="exercise-content">
+                <div class="set-control">
+                    <div class="set-label">Set 1:</div>
+                    <input class="set-input form-control" type="text" placeholder="Repetitions">
+                    <input class="set-input form-control" type="text" placeholder="Weight">
+                    <span class="checkmark"><i class="bi bi-check-circle-fill"></i></span>
+                </div>
+                <div class="exercise-progress">
+                    <div class="exercise-progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-controls">
+                <div class="exercise-name">
+                    <i class="bi bi-dumbbell exercise-icon"></i>
+                    Pull-ups
+                </div>
+                <button class="add-set-btn btn btn-primary btn-sm">Add Set</button>
+                <button class="remove-set-btn btn btn-danger btn-sm">Remove Set</button>
+            </div>
+            <div class="exercise-content">
+                <div class="set-control">
+                    <div class="set-label">Set 1:</div>
+                    <input class="set-input form-control" type="text" placeholder="Repetitions">
+                    <input class="set-input form-control" type="text" placeholder="Weight">
+                    <span class="checkmark"><i class="bi bi-check-circle-fill"></i></span>
+                </div>
+                <div class="exercise-progress">
+                    <div class="exercise-progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more exercise cards here -->
+
+    </div>
+
+    <div class="full-progress-container">
+        <div class="full-progress">
+            <div class="full-progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var exerciseCards = document.getElementsByClassName("exercise-card");
+        var expandButtons = document.getElementsByClassName("exercise-name");
+        var fullProgressBar = document.querySelector(".full-progress-bar");
+
+        // Add event listeners to the expand buttons
+        for (var i = 0; i < expandButtons.length; i++) {
+            expandButtons[i].addEventListener("click", toggleCard);
+        }
+
+        // Function to toggle between expanded and minimized states for exercise cards
+        function toggleCard() {
+            var parentCard = this.closest('.exercise-card');
+            parentCard.classList.toggle("expanded");
+            parentCard.classList.toggle("minimized");
+        }
+
+        // Function to update the progress bars based on completed sets
+        function updateProgress() {
+            var totalSets = 0;
+            var completedSets = 0;
+
+            for (var i = 0; i < exerciseCards.length; i++) {
+                var sets = exerciseCards[i].querySelectorAll(".set-control");
+                var completedSetsInCard = exerciseCards[i].querySelectorAll(".checkmark.checked").length;
+                totalSets += sets.length;
+                completedSets += completedSetsInCard;
+
+                var progressBar = exerciseCards[i].getElementsByClassName("exercise-progress-bar")[0];
+                var progress = (completedSetsInCard / sets.length) * 100;
+                progressBar.style.width = progress + "%";
+            }
+
+            var overallProgress = (completedSets / totalSets) * 100;
+            fullProgressBar.style.width = overallProgress + "%";
+        }
+
+        // Initial setup
+        for (var i = 1; i < exerciseCards.length; i++) {
+            exerciseCards[i].classList.add("minimized");
+        }
+
+        // Add event listeners to the checkmark spans
+        var checkmarks = document.getElementsByClassName("checkmark");
+        for (var i = 0; i < checkmarks.length; i++) {
+            checkmarks[i].addEventListener("click", toggleSet);
+        }
+
+        // Add event listeners to the add set buttons
+        var addSetButtons = document.getElementsByClassName("add-set-btn");
+        for (var i = 0; i < addSetButtons.length; i++) {
+            addSetButtons[i].addEventListener("click", addSet);
+        }
+
+        // Add event listeners to the remove set buttons
+        var removeSetButtons = document.getElementsByClassName("remove-set-btn");
+        for (var i = 0; i < removeSetButtons.length; i++) {
+            removeSetButtons[i].addEventListener("click", removeSet);
+        }
+
+        // Function to toggle the checkmark and update progress bar
+        function toggleSet() {
+            this.classList.toggle("checked");
+            updateProgress();
+        }
+
+        // Function to add a new set
+        function addSet() {
+            var setControl = this.closest('.exercise-card').querySelector('.set-control');
+            var newSet = setControl.cloneNode(true);
+            setControl.parentNode.insertBefore(newSet, setControl.nextSibling);
+            updateProgress();
+        }
+
+        // Function to remove a set
+        function removeSet() {
+            var setControl = this.closest('.exercise-card').querySelector('.set-control');
+            if (setControl.parentNode.children.length > 2) {
+                setControl.parentNode.removeChild(setControl);
+                updateProgress();
+            }
+        }
+
+        // Update progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>
