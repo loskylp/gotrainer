@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Training App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Dynamic Color Palette */
+        :root {
+            --primary-color: #FF5722; /* Example primary color */
+            --secondary-color: #03A9F4; /* Example secondary color */
+        }
+
+        /* Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .exercise-card {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .set-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .set-label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .set-input {
+            width: 60px;
+            height: 20px;
+        }
+
+        .checkmark {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .checkmark i {
+            color: #ccc;
+        }
+
+        .checkmark.checked i {
+            color: var(--secondary-color);
+        }
+
+        .exercise-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .exercise-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        .full-progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .full-progress {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .full-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        .expanded .exercise-card:not(:first-child) {
+            display: none;
+        }
+
+        .minimized .exercise-card:first-child ~ .exercise-card {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fitness Training App</h1>
+
+        <div class="exercise-card expanded">
+            <div class="exercise-name">Bench Press <i class="fas fa-chevron-up"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 3:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Pull-ups <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Overhead Press <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 3:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Dumbbell Flyes <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Bicep Curls <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Tricep Dips <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Push-ups <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="exercise-card minimized">
+            <div class="exercise-name">Shoulder Press <i class="fas fa-chevron-down"></i></div>
+            <div class="set-line">
+                <div class="set-label">Set 1:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="set-line">
+                <div class="set-label">Set 2:</div>
+                <input class="set-input" type="text" placeholder="Repetitions">
+                <input class="set-input" type="text" placeholder="Weight">
+                <span class="checkmark"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div class="exercise-progress">
+                <div class="exercise-progress-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-progress-container">
+        <div class="full-progress">
+            <div class="full-progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        var exerciseCards = document.getElementsByClassName("exercise-card");
+        var expandButtons = document.getElementsByClassName("exercise-name");
+        var fullProgressBar = document.querySelector(".full-progress-bar");
+
+        // Add event listeners to the expand buttons
+        for (var i = 0; i < expandButtons.length; i++) {
+            expandButtons[i].addEventListener("click", toggleCard);
+        }
+
+        // Function to toggle between expanded and minimized states for exercise cards
+        function toggleCard() {
+            var parentCard = this.parentNode;
+            parentCard.classList.toggle("expanded");
+            parentCard.classList.toggle("minimized");
+        }
+
+        // Function to update the progress bars based on completed sets
+        function updateProgress() {
+            var totalSets = 0;
+            var completedSets = 0;
+
+            for (var i = 0; i < exerciseCards.length; i++) {
+                var sets = exerciseCards[i].getElementsByClassName("set-line");
+                var completedSetsInCard = exerciseCards[i].getElementsByClassName("checked").length;
+                totalSets += sets.length;
+                completedSets += completedSetsInCard;
+
+                var progressBar = exerciseCards[i].getElementsByClassName("exercise-progress-bar")[0];
+                var progress = (completedSetsInCard / sets.length) * 100;
+                progressBar.style.width = progress + "%";
+            }
+
+            var overallProgress = (completedSets / totalSets) * 100;
+            fullProgressBar.style.width = overallProgress + "%";
+        }
+
+        // Initial setup
+        for (var i = 1; i < exerciseCards.length; i++) {
+            exerciseCards[i].classList.add("minimized");
+        }
+
+        // Add event listeners to the checkmark spans
+        var checkmarks = document.getElementsByClassName("checkmark");
+        for (var i = 0; i < checkmarks.length; i++) {
+            checkmarks[i].addEventListener("click", toggleSet);
+        }
+
+        // Function to toggle the checkmark and update progress bar
+        function toggleSet() {
+            this.classList.toggle("checked");
+            updateProgress();
+        }
+
+        // Update progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>

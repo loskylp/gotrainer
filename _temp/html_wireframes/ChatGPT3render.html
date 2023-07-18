@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Training App</title>
+    <style>
+        /* Dynamic Color Palette */
+        :root {
+            --primary-color: #FF5722; /* Example primary color */
+            --secondary-color: #03A9F4; /* Example secondary color */
+        }
+
+        /* Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+        }
+
+        .exercise-card {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .set-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .set-label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .set-input {
+            width: 60px;
+            height: 20px;
+        }
+
+        .checkmark {
+            margin-left: 10px;
+        }
+
+        .exercise-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .exercise-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <h1>Fitness Training App</h1>
+
+    <div class="exercise-card">
+        <div class="exercise-name">Exercise 1</div>
+        <div class="set-line">
+            <div class="set-label">Set 1:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 2:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 3:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="exercise-progress">
+            <div class="exercise-progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <div class="exercise-card">
+        <div class="exercise-name">Exercise 2</div>
+        <div class="set-line">
+            <div class="set-label">Set 1:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 2:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="exercise-progress">
+            <div class="exercise-progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <div class="exercise-card">
+        <div class="exercise-name">Exercise 3</div>
+        <div class="set-line">
+            <div class="set-label">Set 1:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 2:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 3:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="set-line">
+            <div class="set-label">Set 4:</div>
+            <input class="set-input" type="text" placeholder="Repetitions">
+            <input class="set-input" type="text" placeholder="Weight">
+            <span class="checkmark"></span>
+        </div>
+        <div class="exercise-progress">
+            <div class="exercise-progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Add event listeners to the checkmark spans
+        var checkmarks = document.getElementsByClassName("checkmark");
+        for (var i = 0; i < checkmarks.length; i++) {
+            checkmarks[i].addEventListener("click", toggleSet);
+        }
+
+        // Function to toggle the checkmark and update progress bar
+        function toggleSet() {
+            this.classList.toggle("checked");
+            updateProgress();
+        }
+
+        // Function to update the progress bars based on completed sets
+        function updateProgress() {
+            var exerciseCards = document.getElementsByClassName("exercise-card");
+            for (var i = 0; i < exerciseCards.length; i++) {
+                var sets = exerciseCards[i].getElementsByClassName("set-line");
+                var completedSets = exerciseCards[i].getElementsByClassName("checked").length;
+                var progress = (completedSets / sets.length) * 100;
+                var progressBar = exerciseCards[i].getElementsByClassName("exercise-progress-bar")[0];
+                progressBar.style.width = progress + "%";
+            }
+        }
+    </script>
+</body>
+</html>

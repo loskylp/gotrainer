@@ -1,25 +1,40 @@
 {
-    "configurations": [
-        
-        { 
-            "type": "node",
-            "name": "vscode-jest-tests.v2",
-            "request": "launch",
-            "args": [
-                "test",
-                "--",
-                "--runInBand",
-                "--watchAll=false",
-                "--testNamePattern",
-                "${jest.testNamePattern}",
-                "--runTestsByPath",
-                "${jest.testFile}"
-            ],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            // "disableOptimisticBPs": true,
-            "runtimeExecutable": "npm"
-        }
-    ]
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ng serve",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200/"
+    },
+    {
+      "name": "ng test",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: test",
+      "url": "http://localhost:9876/debug.html"
+    },
+    { 
+      "type": "node",
+      "name": "vscode-jest-tests.v2",
+      "request": "launch",
+      "args": [
+          "test",
+          "--",
+          "--runInBand",
+          "--watchAll=false",
+          "--testNamePattern",
+          "${jest.testNamePattern}",
+          "--runTestsByPath",
+          "${jest.testFile}"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      // "disableOptimisticBPs": true,
+      "runtimeExecutable": "npm"
+  }
+  ]
 }
